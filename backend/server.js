@@ -5,9 +5,20 @@ const mongoose = require("mongoose");
 
 const app = express();
 
-// import models
-const User=require('./models/User')
 
+
+// import Routes
+const authRoutes = require('./routes/auth');
+
+// middleware to parse Json
+app.use(express.json());
+
+// Use routes
+app.use('/api/auth', authRoutes);
+
+
+// import models
+const User = require('./models/User');
 
 mongoose.connect(process.env.MONGO_URI)
     .then(() => {
