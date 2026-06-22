@@ -1,34 +1,22 @@
-require("dotenv").config()
+require("dotenv").config();
 
 const express = require("express");
-const mongoose = require("mongoose");
-
 const app = express();
 
+const connectDB = require("./config/db")
 
 
-// import Routes
-const authRoutes = require('./routes/auth');
+const PORT = process.env.PORT || 5000;
 
-// middleware to parse Json
-app.use(express.json());
-
-// Use routes
-app.use('/api/auth', authRoutes);
+connectDB();
 
 
-// import models
-const User = require('./models/User');
 
-mongoose.connect(process.env.MONGO_URI)
-    .then(() => {
-        console.log("MongoDB connected succesfully");
+app.get("/",(req,res)=>{
+    res.send("Welcome to codeBuddy API")
+})
 
-        app.listen(3000, () => {
-            console.log("Server is running on port 3000");
-        });
+app.listen(PORT, () => {
+    console.log(`server running on port ${PORT}`);
 
-    })
-    .catch((error) => {
-        console.log("MongoDb conection failed:", error);
-    });
+})
