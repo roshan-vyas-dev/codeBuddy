@@ -5,13 +5,13 @@ const registerUser = async (req, res) => {
 
     const { username, email, password } = req.body;
 
-    const userExists = await User.findOne({ email });
 
-    if (userExists) {
-        return res.status(400).json({
-            message: "User already exists"
-        });
-    }
+    const userExists = await User.findOne({
+        $or: [
+            { email },
+            { username }
+        ]
+    });
 
     const user = await User.create({
         username,
@@ -30,3 +30,6 @@ const registerUser = async (req, res) => {
         throw new Error("Invalid user data");
     }
 };
+
+
+module.exports = { registerUser };
