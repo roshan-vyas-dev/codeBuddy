@@ -6,7 +6,7 @@ const connectDB = require("./config/db")
 
 
 const authRoutes=require("./routes/authRoutes");
-
+const snippetRoutes=require("./routes/snippetRoutes");
 
 
 
@@ -21,6 +21,7 @@ app.use(express.json());
 
 // routes
 app.use("/api/auth",authRoutes);
+app.use("/api/snippets",snippetRoutes)
 
 const PORT = process.env.PORT || 5000;
 
