@@ -1,10 +1,13 @@
 const express = require("express");
 const router = express.Router();
 
-const {createSnippet} = require("../controllers/snippetController");
+const {createSnippet,getSnippets,getSnippetById} = require("../controllers/snippetController");
 const {protect}= require("../middleware/authMiddleware");
 
-router.post("/",protect,createSnippet)
+router.get("/",getSnippets);
+router.get("/:id",getSnippetById);
+router.post("/",protect,createSnippet);
+
 
 
 module.exports=router
