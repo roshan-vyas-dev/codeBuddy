@@ -36,18 +36,18 @@ const getSnippets = async (req, res) => {
 
 
 const getSnippetById = async (req, res) => {
-    
+
     try {
 
         const { id } = req.params;
-        const snippet= await Snippet.findById(id)
+        const snippet = await Snippet.findById(id);
 
-         if (!snippet) {
+        if (!snippet) {
             return res.status(404).json({
                 message: "Snippet not found"
             });
         }
-        
+
         res.status(200).json(snippet);
 
 
@@ -61,4 +61,38 @@ const getSnippetById = async (req, res) => {
     }
 };
 
-module.exports = { createSnippet, getSnippets, getSnippetById };
+const updateSnippet = async (req, res) => {
+    try {
+
+        const { id } = req.params;
+
+        const snippet = await Snippet.findById(id)
+
+        if (!snippet) {
+            return res.status(404).json({
+                message: "Snippet not found"
+            });
+        }
+
+        if (snippet.author.toString() !== req.user._id.toString()) {
+            return res.status(403).json({
+                message: "Not authorized"
+            });
+        }
+
+        snippet.title = req.body.title;
+        snippet.code = req.body.code;
+        snippet.language = req.body.language;
+
+        await snippet.save();
+
+        res.status(200).json(snippet);
+
+    } catch (error) {
+        return res.status(500).json({
+            message: error.message
+        });
+    }
+};
+
+module.exports = { createSnippet, getSnippets, getSnippetById, updateSnippet };
