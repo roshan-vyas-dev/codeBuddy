@@ -2,6 +2,7 @@ const Snippet = require("../models/Snippet");
 const User = require("../models/User");
 
 const createSnippet = async (req, res) => {
+
     try {
 
         const { title, code, language } = req.body;
@@ -98,6 +99,7 @@ const updateSnippet = async (req, res) => {
 
 
 const deleteSnippet = async (req, res) => {
+
     try {
         const { id } = req.params;
 
@@ -109,7 +111,7 @@ const deleteSnippet = async (req, res) => {
             });
         }
 
-                console.log(req.user);
+        console.log(req.user);
 
 
         if (snippet.author.toString() !== req.user._id.toString()) {
@@ -119,7 +121,7 @@ const deleteSnippet = async (req, res) => {
         }
 
 
-         await snippet.deleteOne();
+        await snippet.deleteOne();
 
         res.status(200).json({ message: "snippet deleted succesfully" });
 
@@ -129,4 +131,4 @@ const deleteSnippet = async (req, res) => {
 }
 
 
-module.exports = { createSnippet, getSnippets, getSnippetById, updateSnippet ,deleteSnippet};
+module.exports = { createSnippet, getSnippets, getSnippetById, updateSnippet, deleteSnippet };
