@@ -27,5 +27,18 @@ const createComment = async (req, res) => {
 
 }
 
-module.exports = { createComment };
+const getComments = async (req, res) => {
+    try {
+        const { id } = req.params;
+
+        const comments = await Comment.find({ snippet: id });
+
+        res.status(200).json(comments)
+
+    } catch (error) {
+        res.status(500).json({message:error.message});
+    }
+}
+
+module.exports = { createComment,getComments };
 

@@ -1,10 +1,11 @@
 const express = require("express");
 const router = express.Router();
 
-const {createComment} = require("../controllers/commentController")
+const {createComment,getComments} = require("../controllers/commentController")
 const { protect } = require("../middleware/authMiddleware");
 
 
 router.post("/",protect,createComment);
+router.get("/snippet/:id",protect,getComments);
 
 module.exports = router;
