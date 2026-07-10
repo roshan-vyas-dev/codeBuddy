@@ -31,14 +31,15 @@ const getComments = async (req, res) => {
     try {
         const { id } = req.params;
 
-        const comments = await Comment.find({ snippet: id });
+        const comments = await Comment.find({ snippet: id })
+            .populate("author", "username");
 
         res.status(200).json(comments)
 
     } catch (error) {
-        res.status(500).json({message:error.message});
+        res.status(500).json({ message: error.message });
     }
 }
 
-module.exports = { createComment,getComments };
+module.exports = { createComment, getComments };
 
