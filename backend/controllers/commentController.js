@@ -13,6 +13,18 @@ const createComment = async (req, res) => {
             return res.status(404).json({ message: "Snippet not found" })
         }
 
+        const existingComment = await Comment.findOne({
+            author: req.user._id,
+            snippet: snippet
+        });
+
+        if (snippetData.author.toString() !== req.user._id.toString()) {
+            req.user.reputation += 10;
+            await req.user.save();
+
+        }
+
+
         const comment = await Comment.create({
             author: req.user._id,
             snippet,
@@ -73,7 +85,7 @@ const updateComment = async (req, res) => {
     try {
 
         const { id } = req.params;
-        const{text} = req.body;
+        const { text } = req.body;
         const comment = await Comment.findById(id);
 
         if (!comment) {
@@ -85,7 +97,7 @@ const updateComment = async (req, res) => {
 
         }
 
-        comment.text=text;
+        comment.text = text;
 
         await comment.save();
 
@@ -100,5 +112,5 @@ const updateComment = async (req, res) => {
     }
 };
 
-module.exports = { createComment, getComments, deleteComment ,updateComment};
+module.exports = { createComment, getComments, deleteComment, updateComment };
 
