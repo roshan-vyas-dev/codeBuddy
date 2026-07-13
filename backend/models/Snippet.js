@@ -27,6 +27,11 @@ const snippetSchema = new mongoose.Schema(
       type: Number,
       default: 0,
     },
+     aiReview: {
+      type: String,
+      default: "",
+    },
+  
   },
   {
     timestamps: true,
