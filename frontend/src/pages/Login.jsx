@@ -26,7 +26,6 @@ function Login() {
             localStorage.setItem("token", response.data.token);
             navigate("/dashboard");
 
-            console.log("Token saved successfully!");
 
 
         } catch (error) {
