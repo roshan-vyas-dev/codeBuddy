@@ -1,10 +1,13 @@
 import axios from "axios";
 import { useState, useEffect } from "react"
+import { useNavigate } from "react-router-dom";
 
 
 
 function Dashboard() {
   const [user, setUser] = useState(null);
+
+  const navigate= useNavigate();
 
   useEffect(() => {
 
@@ -40,6 +43,11 @@ function Dashboard() {
 
   }, [])
 
+  const handleLogout=()=>{
+    localStorage.removeItem("token");
+    navigate("/login");
+  }
+
   return (
     <div>
       <h1>Dashboard</h1>
@@ -48,7 +56,7 @@ function Dashboard() {
 
       <button>Create Snippet</button>
 
-      <button>Logout</button>
+      <button onClick={handleLogout}>Logout</button>
 
     </div>
   )
