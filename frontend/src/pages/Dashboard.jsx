@@ -7,7 +7,9 @@ import { useNavigate } from "react-router-dom";
 function Dashboard() {
   const [user, setUser] = useState(null);
 
-  const navigate= useNavigate();
+ 
+
+  const navigate = useNavigate();
 
   useEffect(() => {
 
@@ -26,7 +28,6 @@ function Dashboard() {
           }
         );
 
-        console.log(response.data);
 
         setUser(response.data)
 
@@ -43,10 +44,14 @@ function Dashboard() {
 
   }, [])
 
-  const handleLogout=()=>{
+  const handleLogout = () => {
     localStorage.removeItem("token");
     navigate("/login");
   }
+
+  const handleClick = () => {
+  navigate("/create-snippet");
+};
 
   return (
     <div>
@@ -54,7 +59,7 @@ function Dashboard() {
 
       <h1>Welcome, {user ? user.username : "Loading..."}</h1>
 
-      <button>Create Snippet</button>
+      <button onClick={handleClick}>Create Snippet</button>
 
       <button onClick={handleLogout}>Logout</button>
 
