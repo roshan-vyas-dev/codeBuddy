@@ -5,8 +5,8 @@ const { createSnippet, getSnippets, getSnippetById, updateSnippet, deleteSnippet
 const { reviewSnippet } = require("../controllers/aiController")
 const { protect } = require("../middleware/authMiddleware");
 
-router.get("/", getSnippets);
-router.get("/:id", getSnippetById);
+router.get("/", protect, getSnippets);
+router.get("/:id", protect, getSnippetById);
 router.post("/", protect, createSnippet);
 router.put("/:id", protect, updateSnippet);
 router.delete("/:id", protect, deleteSnippet);
