@@ -7,6 +7,8 @@ import { useParams } from "react-router-dom"
 
 function SnippetDetails() {
     const [snippet, setSnippet] = useState(null);
+    const [comments, setComments] = useState([]);
+    const [comment, setComment] = useState("");
 
     const { id } = useParams();
 
@@ -26,7 +28,6 @@ function SnippetDetails() {
             )
 
             setSnippet(response.data)
-            console.log(response.data);
 
 
 
@@ -37,8 +38,64 @@ function SnippetDetails() {
         }
     }
 
+    const getComments = async () => {
+        try{
+            
+        const token = localStorage.getItem("token");
+
+        const response = await axios.get(
+            `http://localhost:5000/api/comments/snippet/${id}`,
+            {
+                headers: {
+                    Authorization: `Bearer ${token}`
+                }
+
+            }
+        )
+
+        setComments(response.data);
+        }catch(error){
+            console.log(error);
+            
+        }
+
+
+
+    }
+
+    const handleComment = async (e) => {
+        e.preventDefault();
+        try {
+            const token = localStorage.getItem("token");
+
+             await axios.post(
+                "http://localhost:5000/api/comments",
+                {
+                    snippet: id,
+                    text: comment
+                },
+                {
+                    headers: {
+                        Authorization: `Bearer ${token}`
+                    }
+                }
+
+            )
+
+            setComment("");
+
+            getComments();
+
+
+        } catch (error) {
+            console.log(error);
+
+        }
+    }
+
     useEffect(() => {
         getSnippet();
+        getComments();
     }, []);
 
 
@@ -58,6 +115,27 @@ function SnippetDetails() {
             <pre>{snippet.code}</pre>
 
             <h4> Points: {snippet.points}</h4>
+
+            <form onSubmit={handleComment} >
+                <textarea value={comment} placeholder="type a comment" onChange={(e) =>
+                    setComment(e.target.value)
+                } />
+
+                <button type="submit">Add comment</button>
+            </form>
+
+
+            <h3>Comments</h3>
+
+            {comments.map((comment) => (
+                <div key={comment._id}>
+
+                    <h4>{comment.author.username}</h4>
+                    <p>{comment.text}</p>
+
+                </div>
+            ))}
+
         </div>
     )
 }
