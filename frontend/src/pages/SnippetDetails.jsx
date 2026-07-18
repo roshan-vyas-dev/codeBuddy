@@ -9,6 +9,7 @@ function SnippetDetails() {
     const [snippet, setSnippet] = useState(null);
     const [comments, setComments] = useState([]);
     const [comment, setComment] = useState("");
+    const [user, setUser] = useState(null);
 
     const { id } = useParams();
 
@@ -39,24 +40,24 @@ function SnippetDetails() {
     }
 
     const getComments = async () => {
-        try{
-            
-        const token = localStorage.getItem("token");
+        try {
 
-        const response = await axios.get(
-            `http://localhost:5000/api/comments/snippet/${id}`,
-            {
-                headers: {
-                    Authorization: `Bearer ${token}`
+            const token = localStorage.getItem("token");
+
+            const response = await axios.get(
+                `http://localhost:5000/api/comments/snippet/${id}`,
+                {
+                    headers: {
+                        Authorization: `Bearer ${token}`
+                    }
+
                 }
+            )
 
-            }
-        )
-
-        setComments(response.data);
-        }catch(error){
+            setComments(response.data);
+        } catch (error) {
             console.log(error);
-            
+
         }
 
 
@@ -68,7 +69,7 @@ function SnippetDetails() {
         try {
             const token = localStorage.getItem("token");
 
-             await axios.post(
+            await axios.post(
                 "http://localhost:5000/api/comments",
                 {
                     snippet: id,
@@ -93,9 +94,63 @@ function SnippetDetails() {
         }
     }
 
+    const getMe = async () => {
+
+        try {
+
+            const token = localStorage.getItem("token");
+
+            const response = await axios.get(
+                "http://localhost:5000/api/auth/me",
+                {
+                    headers: {
+                        Authorization: `Bearer ${token}`,
+                    },
+                }
+            );
+
+
+            setUser(response.data)
+
+
+        } catch (error) {
+            console.log(error);
+
+        }
+
+    }
+
+    const handleDelete = async (commentId) => {
+
+        try {
+            const token = localStorage.getItem("token");
+
+            await axios.delete(
+                `http://localhost:5000/api/comments/${commentId}`,
+
+                {
+                    headers: {
+                        Authorization: `Bearer ${token}`
+                    }
+                }
+
+            )
+
+            getComments();
+
+        } catch (error) {
+            console.log(error);
+
+        }
+
+
+    }
+
     useEffect(() => {
         getSnippet();
         getComments();
+        getMe();
+
     }, []);
 
 
@@ -132,6 +187,12 @@ function SnippetDetails() {
 
                     <h4>{comment.author.username}</h4>
                     <p>{comment.text}</p>
+
+                    {user._id === comment.author._id && (
+                        <button onClick={() => handleDelete(comment._id)}>
+                            Delete
+                        </button>
+                    )}
 
                 </div>
             ))}

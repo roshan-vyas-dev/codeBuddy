@@ -12,14 +12,14 @@ function Dashboard() {
 
   const navigate = useNavigate();
 
-  const getProfile = async () => {
+  const getMe = async () => {
 
     try {
 
       const token = localStorage.getItem("token");
 
       const response = await axios.get(
-        "http://localhost:5000/api/auth/profile",
+        "http://localhost:5000/api/auth/me",
         {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -63,7 +63,7 @@ function Dashboard() {
 
 
   useEffect(() => {
-    getProfile();
+    getMe();
     getSnippets();
 
   }, [])
