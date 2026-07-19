@@ -11,6 +11,9 @@ function SnippetDetails() {
     const [comment, setComment] = useState("");
     const [user, setUser] = useState(null);
 
+    const [editingId, setEditingId] = useState(null);
+    const [editText, setEditText] = useState("");
+
     const { id } = useParams();
 
     const getSnippet = async () => {
@@ -146,6 +149,49 @@ function SnippetDetails() {
 
     }
 
+    const handleEdit = (comment) => {
+
+        setEditingId(comment._id);
+        setEditText(comment.text);
+
+    }
+
+    const handleCancel = () => {
+        setEditingId(null);
+        setEditText("");
+    };
+
+    const handleUpdate = async () => {
+
+        try {
+
+            const token = localStorage.getItem("token");
+
+            await axios.put(
+                `http://localhost:5000/api/comments/${editingId}`,
+                {
+                    text: editText
+
+                },
+                {
+                    headers: {
+                        Authorization: `Bearer ${token}`
+                    }
+                }
+            )
+
+            await getComments();
+
+            setEditText("");
+            setEditingId(null)
+
+
+        } catch (error) {
+            console.log(error);
+        }
+
+    }
+
     useEffect(() => {
         getSnippet();
         getComments();
@@ -186,12 +232,49 @@ function SnippetDetails() {
                 <div key={comment._id}>
 
                     <h4>{comment.author.username}</h4>
-                    <p>{comment.text}</p>
+
+
+                    {editingId === comment._id ? (
+
+                        <>
+                            <textarea
+                                value={editText}
+                                onChange={(e) => setEditText(e.target.value)}
+                            />
+
+                            <button onClick={handleUpdate}>
+                                Save
+                            </button>
+
+                            <button onClick={handleCancel}>
+                                Cancel
+                            </button>
+                        </>
+
+
+                    ) : (
+
+                        <>
+                            <p>{comment.text}</p>
+
+
+
+
+                        </>
+
+                    )}
 
                     {user._id === comment.author._id && (
-                        <button onClick={() => handleDelete(comment._id)}>
-                            Delete
-                        </button>
+
+                        <>
+                            <button onClick={() => handleEdit(comment)}>
+                                Edit
+                            </button>
+
+                            <button onClick={() => handleDelete(comment._id)}>
+                                Delete
+                            </button>
+                        </>
                     )}
 
                 </div>
