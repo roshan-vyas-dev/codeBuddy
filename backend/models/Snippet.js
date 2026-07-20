@@ -27,11 +27,17 @@ const snippetSchema = new mongoose.Schema(
       type: Number,
       default: 0,
     },
-     aiReview: {
+    aiReview: {
       type: String,
       default: "",
     },
-  
+    likes: [
+      {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "User"
+      }
+    ]
+
   },
   {
     timestamps: true,

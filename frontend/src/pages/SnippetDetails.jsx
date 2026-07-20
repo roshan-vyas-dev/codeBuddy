@@ -14,6 +14,8 @@ function SnippetDetails() {
     const [editingId, setEditingId] = useState(null);
     const [editText, setEditText] = useState("");
 
+    const [liked, setLiked] = useState(false);
+
     const { id } = useParams();
 
     const getSnippet = async () => {
@@ -192,12 +194,53 @@ function SnippetDetails() {
 
     }
 
+
+    const handleLike = async () => {
+        try {
+            const token = localStorage.getItem("token");
+
+            await axios.put(
+                `http://localhost:5000/api/snippets/${id}/like`,
+                {},
+                {
+                    headers: {
+                        Authorization: `Bearer ${token}`
+                    }
+                }
+
+            )
+
+            await getSnippet();
+
+            setLiked((prev) => !prev);
+
+
+        } catch (error) {
+            console.log(error);
+
+        }
+
+    }
+
     useEffect(() => {
         getSnippet();
         getComments();
         getMe();
 
     }, []);
+
+    useEffect(() => {
+
+        if (snippet && user) {
+
+            const likedByMe = snippet.likes.some(
+                (id) => id.toString() === user._id
+            );
+
+            setLiked(likedByMe);
+        }
+
+    }, [snippet, user]);
 
 
     if (!snippet) {
@@ -216,6 +259,12 @@ function SnippetDetails() {
             <pre>{snippet.code}</pre>
 
             <h4> Points: {snippet.points}</h4>
+
+            <h4>❤️ Likes: {snippet.likes.length}</h4>
+
+            <button onClick={handleLike}>
+                {liked ? "❤️ Liked" : "👍 Like"}
+            </button>
 
             <form onSubmit={handleComment} >
                 <textarea value={comment} placeholder="type a comment" onChange={(e) =>
