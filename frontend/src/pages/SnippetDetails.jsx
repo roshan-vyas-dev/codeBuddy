@@ -1,6 +1,7 @@
 import axios from "axios";
 import { useState, useEffect } from "react";
-import { useParams } from "react-router-dom"
+import { useParams } from "react-router-dom";
+import ReactMarkdown from "react-markdown";
 
 
 
@@ -15,6 +16,9 @@ function SnippetDetails() {
     const [editText, setEditText] = useState("");
 
     const [liked, setLiked] = useState(false);
+
+    const [review, setReview] = useState("");
+    const [loadingReview, setLoadingReview] = useState(false);
 
     const { id } = useParams();
 
@@ -222,6 +226,36 @@ function SnippetDetails() {
 
     }
 
+
+    const handleReview = async () => {
+
+        try {
+
+            setLoadingReview(true)
+
+            const token = localStorage.getItem("token");
+
+            const response = await axios.post(
+                `http://localhost:5000/api/snippets/${id}/review`,
+                {},
+                {
+                    headers: {
+                        Authorization: `Bearer ${token}`
+                    }
+                }
+            );
+
+            setReview(response.data.review)
+
+        } catch (error) {
+            console.log(error);
+
+        } finally {
+            setLoadingReview(false)
+        }
+
+    }
+
     useEffect(() => {
         getSnippet();
         getComments();
@@ -265,6 +299,24 @@ function SnippetDetails() {
             <button onClick={handleLike}>
                 {liked ? "❤️ Liked" : "👍 Like"}
             </button>
+
+            <button
+                onClick={handleReview}
+                disabled={loadingReview}
+            >
+                {loadingReview ? "⏳ Reviewing..." : "🤖 Review My Code"}
+            </button>
+
+            {review && (
+                <div>
+                    <h3>AI Review</h3>
+
+                    <ReactMarkdown>
+                        {review}
+                    </ReactMarkdown>
+
+                </div>
+            )}
 
             <form onSubmit={handleComment} >
                 <textarea value={comment} placeholder="type a comment" onChange={(e) =>

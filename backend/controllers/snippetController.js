@@ -133,9 +133,7 @@ const deleteSnippet = async (req, res) => {
 
 
 const likeSnippet = async (req, res) => {
-
     try {
-
 
         const snippet = await Snippet.findById(req.params.id);
 
@@ -145,10 +143,19 @@ const likeSnippet = async (req, res) => {
             });
         }
 
+        if (snippet.author.toString() === req.user._id.toString()) {
+            return res.status(400).json({
+                message: "You cannot like your own snippet"
+            });
+        }
+
 
         const alreadyLiked = snippet.likes.some(
             (id) => id.toString() === req.user._id.toString()
         );
+
+
+        const user = await User.findById(snippet.author);
 
 
         if (alreadyLiked) {
@@ -157,13 +164,18 @@ const likeSnippet = async (req, res) => {
                 (id) => id.toString() !== req.user._id.toString()
             );
 
+            user.reputation = Math.max(0, user.reputation - 1);;
+
         } else {
 
             snippet.likes.push(req.user._id);
 
+            user.reputation++;
+
         }
 
 
+        await user.save();
         await snippet.save();
 
 
@@ -171,10 +183,11 @@ const likeSnippet = async (req, res) => {
 
 
     } catch (error) {
-        res.status(500).json({ message: error.message })
+        res.status(500).json({
+            message: error.message
+        });
     }
-
-}
+};
 
 
 module.exports = { createSnippet, getSnippets, getSnippetById, updateSnippet, deleteSnippet, likeSnippet };
