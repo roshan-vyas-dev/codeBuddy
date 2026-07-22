@@ -25,7 +25,7 @@ const createSnippet = async (req, res) => {
 
 const getSnippets = async (req, res) => {
     try {
-        const snippets = await Snippet.find()
+        const snippets = await Snippet.find().populate("author", "username profilePic");
 
         res.status(200).json(snippets);
 
@@ -43,7 +43,7 @@ const getSnippetById = async (req, res) => {
     try {
 
         const { id } = req.params;
-        const snippet = await Snippet.findById(id);
+        const snippet = await Snippet.findById(id).populate("author", "username profilePic");
 
         if (!snippet) {
             return res.status(404).json({

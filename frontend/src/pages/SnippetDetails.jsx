@@ -2,6 +2,7 @@ import axios from "axios";
 import { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import ReactMarkdown from "react-markdown";
+import { Link } from "react-router-dom";
 
 
 
@@ -332,7 +333,9 @@ function SnippetDetails() {
             {comments.map((comment) => (
                 <div key={comment._id}>
 
-                    <h4>{comment.author.username}</h4>
+                    <Link to={`/profile/${comment.author._id}`}>
+                        {comment.author.username}
+                    </Link>
 
 
                     {editingId === comment._id ? (
