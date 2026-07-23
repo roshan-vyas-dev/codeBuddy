@@ -189,5 +189,30 @@ const likeSnippet = async (req, res) => {
     }
 };
 
+const searchSnippets = async (req, res) => {
 
-module.exports = { createSnippet, getSnippets, getSnippetById, updateSnippet, deleteSnippet, likeSnippet };
+    try {
+
+        const keyword = req.query.keyword;
+
+        const snippets = await Snippet.find({
+            title: {
+                $regex: keyword,
+                $options: "i"
+            }
+        }).populate("author", "username profilePic");
+
+        res.json(snippets);
+
+    } catch (error) {
+
+        res.status(500).json({
+            message: error.message
+        });
+
+    }
+
+};
+
+
+module.exports = { createSnippet, getSnippets, getSnippetById, updateSnippet, deleteSnippet, likeSnippet,searchSnippets };
