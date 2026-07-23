@@ -10,6 +10,9 @@ function Dashboard() {
   const [keyword, setKeyword] = useState("");
   const [selectedLanguage, setSelectedLanguage] = useState("");
 
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState("");
+
 
 
   const navigate = useNavigate();
@@ -42,6 +45,9 @@ function Dashboard() {
 
   const getSnippets = async () => {
     try {
+
+      setLoading(true);
+
       const token = localStorage.getItem("token");
 
       const response = await axios.get(
@@ -53,12 +59,18 @@ function Dashboard() {
         }
       );
 
-      setSnippets(response.data)
+      setSnippets(response.data);
+      setLoading(false);
+
 
 
     } catch (error) {
       console.log(error);
 
+      setError("Failed to load snippets");
+
+    } finally {
+      setLoading(false);
     }
 
   }
@@ -109,11 +121,17 @@ function Dashboard() {
 
   const displayedSnippets = snippets.filter((snippet) => {
 
-    if (selectedLanguage === "") {
-      return true;
-    }
+    const searchMatch =
+      keyword === "" ||
+      snippet.title.toLowerCase().includes(keyword.toLowerCase());
 
-    return snippet.language === selectedLanguage;
+
+    const languageMatch =
+      selectedLanguage === "" ||
+      snippet.language === selectedLanguage;
+
+
+    return searchMatch && languageMatch;
 
   });
 
@@ -156,17 +174,33 @@ function Dashboard() {
         <option value="C">C</option>
       </select>
 
-      {displayedSnippets.map((snippet) => (
-        <div key={snippet._id}>
-          <h4>{snippet.title}</h4>
-          <h4>{snippet.language}</h4>
-          <h4>{snippet.points}</h4>
+      {loading ? (
 
-          <Link to={`/snippets/${snippet._id}`}>
-            View Details
-          </Link>
-        </div>
-      ))}
+        <p>⏳ Loading snippets...</p>
+
+      ) : error ? (
+
+        <p>❌ {error}</p>
+
+      ) : displayedSnippets.length === 0 ? (
+
+        <p>😕 No snippets found</p>
+
+      ) : (
+
+        displayedSnippets.map((snippet) => (
+          <div key={snippet._id}>
+            <h4>{snippet.title}</h4>
+            <h4>{snippet.language}</h4>
+            <h4>{snippet.points}</h4>
+
+            <Link to={`/snippets/${snippet._id}`}>
+              View Details
+            </Link>
+          </div>
+        ))
+
+      )}
 
 
 
