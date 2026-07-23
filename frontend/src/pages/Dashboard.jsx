@@ -8,6 +8,7 @@ function Dashboard() {
   const [user, setUser] = useState(null);
   const [snippets, setSnippets] = useState([]);
   const [keyword, setKeyword] = useState("");
+  const [selectedLanguage, setSelectedLanguage] = useState("");
 
 
 
@@ -63,7 +64,6 @@ function Dashboard() {
   }
 
   const handleSearch = async () => {
-    console.log("Searching:", keyword);
 
     try {
 
@@ -107,6 +107,16 @@ function Dashboard() {
     navigate("/create-snippet");
   };
 
+  const displayedSnippets = snippets.filter((snippet) => {
+
+    if (selectedLanguage === "") {
+      return true;
+    }
+
+    return snippet.language === selectedLanguage;
+
+  });
+
   return (
     <div>
       <h1>Dashboard</h1>
@@ -115,13 +125,13 @@ function Dashboard() {
 
       <input type="text" placeholder="Search snippets..." value={keyword} onChange={(e) => {
 
-          setKeyword(e.target.value);
+        setKeyword(e.target.value);
 
-          if (e.target.value === "") {
-            getSnippets();
-          }
+        if (e.target.value === "") {
+          getSnippets();
+        }
 
-        }} />
+      }} />
 
       <button onClick={handleSearch}>
         Search
@@ -132,7 +142,21 @@ function Dashboard() {
 
       <button onClick={handleLogout}>Logout</button>
 
-      {snippets.map((snippet) => (
+      <br />
+
+      <select
+        value={selectedLanguage}
+        onChange={(e) => setSelectedLanguage(e.target.value)}
+      >
+        <option value="">All</option>
+        <option value="JavaScript">JavaScript</option>
+        <option value="Python">Python</option>
+        <option value="Java">Java</option>
+        <option value="C++">C++</option>
+        <option value="C">C</option>
+      </select>
+
+      {displayedSnippets.map((snippet) => (
         <div key={snippet._id}>
           <h4>{snippet.title}</h4>
           <h4>{snippet.language}</h4>
