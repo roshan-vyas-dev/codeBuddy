@@ -13,18 +13,7 @@ const createComment = async (req, res) => {
             return res.status(404).json({ message: "Snippet not found" })
         }
 
-        const existingComment = await Comment.findOne({
-            author: req.user._id,
-            snippet: snippet
-        });
-
-        if (snippetData.author.toString() !== req.user._id.toString()) {
-            req.user.reputation += 10;
-            await req.user.save();
-
-        }
-
-
+      
         const comment = await Comment.create({
             author: req.user._id,
             snippet,

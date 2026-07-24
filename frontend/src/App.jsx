@@ -8,6 +8,8 @@ import ProtectedRoute from "./components/ProtectedRoute";
 import CreateSnippet from "./pages/CreateSnippet";
 import SnippetDetails from "./pages/SnippetDetails";
 import Profile from "./pages/Profile";
+import NotFound from "./pages/NotFound";
+
 
 
 
@@ -22,10 +24,10 @@ function App() {
       <Route path="/login" element={<Login />} />
       <Route path="/register" element={<Register />} />
       <Route path="/dashboard" element={<ProtectedRoute><Dashboard /></ProtectedRoute>} />
-      <Route path="/dashboard" element={<ProtectedRoute><Dashboard /></ProtectedRoute>} />
       <Route path="/create-snippet" element={<ProtectedRoute><CreateSnippet /></ProtectedRoute>} />
       <Route path="/snippets/:id" element={<SnippetDetails/>} />
       <Route path="/profile/:id" element={<Profile />} />
+      <Route path="*" element={<NotFound />} />
 
 
     </Routes>

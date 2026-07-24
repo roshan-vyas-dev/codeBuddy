@@ -1,19 +1,20 @@
 import axios from "axios";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
 
 function CreateSnippet() {
     const [title, setTitle] = useState("");
     const [language, setLanguage] = useState("");
     const [code, setCode] = useState("");
 
-    const navigate=useNavigate();
+    const navigate = useNavigate();
 
-    const handleSubmit = async(e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
 
-        try{
-            const token =localStorage.getItem("token");
+        try {
+            const token = localStorage.getItem("token");
 
             await axios.post(
                 "http://localhost:5000/api/snippets",
@@ -24,52 +25,124 @@ function CreateSnippet() {
 
                 },
                 {
-                    headers:{
-                         Authorization: `Bearer ${token}`,
+                    headers: {
+                        Authorization: `Bearer ${token}`,
 
                     }
                 }
 
-                
+
             )
-            console.log("Snippet created successfully!");
+
+            toast.success("Snippet created successfully");
             navigate("/dashboard")
 
 
-        }catch(error){
+        } catch (error) {
             console.log(error);
-            
+            toast.error("Failed to create snippet");
+
         }
 
     }
 
 
     return (
-        <div>
-            <form onSubmit={handleSubmit} >
 
-                <input type="text" value={title} placeholder="Enter title" onChange={(e) => setTitle(e.target.value)} />
-
-                <select value={language} onChange={(e) => setLanguage(e.target.value)}>
-
-                    <option value="">Select Language</option>
-                    <option value="JavaScript">JavaScript</option>
-                    <option value="Python">Python</option>
-                    <option value="Java">Java</option>
-                    <option value="C++">C++</option>
-                    <option value="C">C</option>
-
-                </select>
+        <div className="min-h-screen bg-gradient-to-br from-slate-100 via-white to-indigo-100 p-8">
 
 
-                <textarea value={code} placeholder="Enter code" onChange={(e) => setCode(e.target.value)} />
-
-                <button type="submit">Create Snippet</button>
+            <div className="max-w-3xl mx-auto">
 
 
-            </form>
+                <div className="bg-white/80 backdrop-blur-md border border-white rounded-2xl shadow-lg p-8">
+
+
+                    <h1 className="text-3xl font-bold text-gray-800 mb-6">
+                        Create Snippet
+                    </h1>
+
+
+
+                    <form onSubmit={handleSubmit} className="space-y-5">
+
+
+                        <input
+                            type="text"
+                            value={title}
+                            placeholder="Enter title"
+                            onChange={(e) => setTitle(e.target.value)}
+                            className="w-full px-4 py-3 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                        />
+
+
+
+                        <select
+                            value={language}
+                            onChange={(e) => setLanguage(e.target.value)}
+                            className="w-full px-4 py-3 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                        >
+
+                            <option value="">
+                                Select Language
+                            </option>
+
+                            <option value="JavaScript">
+                                JavaScript
+                            </option>
+
+                            <option value="Python">
+                                Python
+                            </option>
+
+                            <option value="Java">
+                                Java
+                            </option>
+
+                            <option value="C++">
+                                C++
+                            </option>
+
+                            <option value="C">
+                                C
+                            </option>
+
+                        </select>
+
+
+
+
+                        <textarea
+                            value={code}
+                            placeholder="Enter code"
+                            onChange={(e) => setCode(e.target.value)}
+                            rows="10"
+                            className="w-full px-4 py-3 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-indigo-500 resize-none"
+                        />
+
+
+
+
+                        <button
+                            type="submit"
+                            className="w-full bg-indigo-600 text-white py-3 rounded-lg hover:bg-indigo-700 transition font-medium"
+                        >
+                            Create Snippet
+                        </button>
+
+
+
+                    </form>
+
+
+                </div>
+
+
+            </div>
+
 
         </div>
+
     )
 }
 

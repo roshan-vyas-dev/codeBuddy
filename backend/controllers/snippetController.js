@@ -164,13 +164,15 @@ const likeSnippet = async (req, res) => {
                 (id) => id.toString() !== req.user._id.toString()
             );
 
-            user.reputation = Math.max(0, user.reputation - 1);;
+            user.reputation = Math.max(0, user.reputation - 1);
+            snippet.points = Math.max(0, snippet.points - 1);
 
         } else {
 
             snippet.likes.push(req.user._id);
 
             user.reputation++;
+            snippet.points++;
 
         }
 
@@ -215,4 +217,4 @@ const searchSnippets = async (req, res) => {
 };
 
 
-module.exports = { createSnippet, getSnippets, getSnippetById, updateSnippet, deleteSnippet, likeSnippet,searchSnippets };
+module.exports = { createSnippet, getSnippets, getSnippetById, updateSnippet, deleteSnippet, likeSnippet, searchSnippets };

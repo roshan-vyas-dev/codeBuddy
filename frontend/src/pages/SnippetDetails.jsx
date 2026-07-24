@@ -2,7 +2,8 @@ import axios from "axios";
 import { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import ReactMarkdown from "react-markdown";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
 
 
 
@@ -22,6 +23,7 @@ function SnippetDetails() {
     const [loadingReview, setLoadingReview] = useState(false);
 
     const { id } = useParams();
+    const navigate = useNavigate();
 
     const getSnippet = async () => {
 
@@ -204,6 +206,9 @@ function SnippetDetails() {
         try {
             const token = localStorage.getItem("token");
 
+            const newLikedStatus = !liked;
+
+
             await axios.put(
                 `http://localhost:5000/api/snippets/${id}/like`,
                 {},
@@ -215,13 +220,20 @@ function SnippetDetails() {
 
             )
 
+
+            setLiked(newLikedStatus);
+
             await getSnippet();
 
-            setLiked((prev) => !prev);
+            toast.success(
+                newLikedStatus
+                    ? "Snippet liked!"
+                    : "Like removed");
 
 
         } catch (error) {
-            console.log(error);
+            toast.error(error.response?.data?.message || "Something went wrong");
+
 
         }
 
@@ -284,105 +296,221 @@ function SnippetDetails() {
 
 
     return (
-        <div>
-            <h1>Snippet Details</h1>
 
-            <h2>{snippet.title}</h2>
+        <div className="min-h-screen bg-gradient-to-br from-slate-100 via-white to-indigo-100 p-8">
 
-            <h4>{snippet.language}</h4>
+            <div className="max-w-5xl mx-auto">
 
-            <pre>{snippet.code}</pre>
+                <button
+                    onClick={() => navigate("/dashboard")}
+                    className="mb-6 text-indigo-600 font-medium hover:underline">
+                    ← Back to Dashboard
+                </button>
 
-            <h4> Points: {snippet.points}</h4>
+                <div className="bg-white/80 backdrop-blur-md border border-white rounded-2xl shadow-lg p-8 mb-6">
 
-            <h4>❤️ Likes: {snippet.likes.length}</h4>
-
-            <button onClick={handleLike}>
-                {liked ? "❤️ Liked" : "👍 Like"}
-            </button>
-
-            <button
-                onClick={handleReview}
-                disabled={loadingReview}
-            >
-                {loadingReview ? "⏳ Reviewing..." : "🤖 Review My Code"}
-            </button>
-
-            {review && (
-                <div>
-                    <h3>AI Review</h3>
-
-                    <ReactMarkdown>
-                        {review}
-                    </ReactMarkdown>
-
-                </div>
-            )}
-
-            <form onSubmit={handleComment} >
-                <textarea value={comment} placeholder="type a comment" onChange={(e) =>
-                    setComment(e.target.value)
-                } />
-
-                <button type="submit">Add comment</button>
-            </form>
+                    <h1 className="text-3xl font-bold text-gray-800 mb-3">
+                        {snippet.title}
+                    </h1>
 
 
-            <h3>Comments</h3>
+                    <p className="text-indigo-600 font-medium mb-4">
+                        {snippet.language}
+                    </p>
 
-            {comments.map((comment) => (
-                <div key={comment._id}>
+                    <div className="flex gap-4 mb-6">
 
-                    <Link to={`/profile/${comment.author._id}`}>
-                        {comment.author.username}
-                    </Link>
-
-
-                    {editingId === comment._id ? (
-
-                        <>
-                            <textarea
-                                value={editText}
-                                onChange={(e) => setEditText(e.target.value)}
-                            />
-
-                            <button onClick={handleUpdate}>
-                                Save
-                            </button>
-
-                            <button onClick={handleCancel}>
-                                Cancel
-                            </button>
-                        </>
+                        <span className="bg-indigo-100 text-indigo-700 px-4 py-2 rounded-full font-medium">
+                            ⭐ {snippet.points} points
+                        </span>
 
 
-                    ) : (
+                        <span className="bg-green-100 text-green-700 px-4 py-2 rounded-full font-medium">
+                            👍 {snippet.likes.length} likes
+                        </span>
 
-                        <>
-                            <p>{comment.text}</p>
+                    </div>
 
 
+                    <div className="bg-gray-900 rounded-2xl p-6 mb-6 overflow-x-auto">
 
+                        <pre className="text-gray-100 text-sm">
+                            {snippet.code}
+                        </pre>
 
-                        </>
-
-                    )}
-
-                    {user._id === comment.author._id && (
-
-                        <>
-                            <button onClick={() => handleEdit(comment)}>
-                                Edit
-                            </button>
-
-                            <button onClick={() => handleDelete(comment._id)}>
-                                Delete
-                            </button>
-                        </>
-                    )}
+                    </div>
 
                 </div>
-            ))}
+
+
+                <div className="flex gap-4 mb-8">
+                    <button
+                        onClick={handleLike}
+                        className="bg-green-600 text-white px-5 py-3 rounded-lg hover:bg-green-700 transition"
+                    >
+                        {liked ? "Liked" : "Like"}
+                    </button>
+
+
+                    <button
+                        onClick={handleReview}
+                        disabled={loadingReview}
+                        className="bg-indigo-600 text-white px-5 py-3 rounded-lg hover:bg-indigo-700 transition disabled:opacity-50"
+                    >
+                        {loadingReview ? "Reviewing..." : "Review Code"}
+                    </button>
+                </div>
+
+                {review && (
+
+                    <div className="bg-white/80 backdrop-blur-md border border-white rounded-2xl shadow-lg p-6 mb-8">
+
+                        <h3 className="text-2xl font-bold text-gray-800 mb-4">
+                            AI Code Review
+                        </h3>
+
+
+                        <div className="prose max-w-none text-gray-700">
+
+                            <ReactMarkdown>
+                                {review}
+                            </ReactMarkdown>
+
+                        </div>
+
+
+                    </div>
+
+                )}
+
+                <div className="bg-white/80 backdrop-blur-md border border-white rounded-2xl shadow-lg p-6 mb-8">
+
+
+                    <h3 className="text-xl font-bold text-gray-800 mb-4">
+                        Add Comment
+                    </h3>
+
+
+                    <form onSubmit={handleComment} className="space-y-4">
+
+
+                        <textarea
+                            value={comment}
+                            placeholder="Share your feedback..."
+                            onChange={(e) => setComment(e.target.value)}
+                            rows="4"
+                            className="w-full px-4 py-3 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-indigo-500 resize-none"
+                        />
+
+
+                        <button
+                            type="submit"
+                            className="bg-indigo-600 text-white px-6 py-3 rounded-lg hover:bg-indigo-700 transition" >
+                            Add Comment
+                        </button>
+
+
+                    </form>
+
+
+                </div>
+
+                <h3 className="text-2xl font-bold text-gray-800 mb-5">
+                    Comments
+                </h3>
+
+                {comments.length === 0 ? (
+
+                    <div className="bg-white/80 backdrop-blur-md border border-white rounded-2xl shadow p-8 text-center mb-6">
+
+                        <p className="text-gray-700 text-lg font-medium">
+                            No comments yet
+                        </p>
+
+                        <p className="text-gray-500 mt-2">
+                            Be the first person to review this code.
+                        </p>
+
+                    </div>
+
+                ) : (
+
+                    comments.map((comment) => (
+
+                        <div
+                            key={comment._id}
+                            className="bg-white/80 backdrop-blur-md border border-white rounded-xl shadow p-5 mb-4">
+
+                            <Link
+                                to={`/profile/${comment.author._id}`}
+                                className="text-indigo-600 font-semibold hover:underline">
+                                {comment.author.username}
+                            </Link>
+
+                            {editingId === comment._id ? (
+
+                                <>
+                                    <textarea
+                                        value={editText}
+                                        onChange={(e) => setEditText(e.target.value)}
+                                        className="w-full px-4 py-3 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-indigo-500 mb-3"
+                                    />
+
+                                    <div className="flex gap-3">
+
+                                        <button
+                                            onClick={handleUpdate}
+                                            className="bg-green-600 text-white px-4 py-2 rounded-lg hover:bg-green-700 transition">
+                                            Save
+                                        </button>
+
+                                        <button
+                                            onClick={handleCancel}
+                                            className="border border-gray-400 px-4 py-2 rounded-lg hover:bg-gray-100 transition">
+                                            Cancel
+                                        </button>
+
+                                    </div>
+                                </>
+
+                            ) : (
+
+                                <>
+                                    <p className="text-gray-700 mt-3">
+                                        {comment.text}
+                                    </p>
+                                </>
+
+                            )}
+
+                            {user._id === comment.author._id && (
+
+                                <div className="flex gap-3 mt-4">
+
+                                    <button
+                                        onClick={() => handleEdit(comment)}
+                                        className="text-indigo-600 hover:underline">
+                                        Edit
+                                    </button>
+
+                                    <button
+                                        onClick={() => handleDelete(comment._id)}
+                                        className="text-red-600 hover:underline">
+                                        Delete
+                                    </button>
+
+                                </div>
+
+                            )}
+
+                        </div>
+
+                    ))
+
+                )}
+
+
+            </div>
 
         </div>
     )
