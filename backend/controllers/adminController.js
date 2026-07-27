@@ -58,5 +58,45 @@ const blockUser = async (req, res) => {
 
 };
 
+const unblockUser = async (req, res) => {
 
-module.exports = { getAllUsers, blockUser }
+    try {
+
+        const user = await User.findById(req.params.id);
+
+        if (!user) {
+            return res.status(404).json({ message: "User not found" });
+        }
+
+        if (user.role === "admin") {
+            return res.status(400).json({
+                message: "Admin cannot be unblocked"
+            });
+        }
+
+        if (!user.isBlocked) {
+            return res.status(400).json({
+                message: "User is already unblocked"
+            });
+        }
+
+        user.isBlocked = false;
+        await user.save();
+
+        res.status(200).json({
+            message: "User unblocked successfully"
+        });
+
+
+    } catch (error) {
+
+        res.status(500).json({
+            message: error.message
+        });
+
+    }
+
+};
+
+
+module.exports = { getAllUsers, blockUser, unblockUser }
