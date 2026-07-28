@@ -1,4 +1,6 @@
 const User = require("../models/User");
+const Snippet = require("../models/Snippet");
+const Comment = require("../models/Comment");
 
 const getAllUsers = async (req, res) => {
 
@@ -131,5 +133,30 @@ const deleteUser = async (req, res) => {
 
 };
 
+const deleteSnippet = async (req, res) => {
 
-module.exports = { getAllUsers, blockUser, unblockUser, deleteUser }
+    try {
+        const snippet = await Snippet.findById(req.params.id);
+
+        if (!snippet) {
+            return res.status(404).json({ message: "Snippet not found" });
+        }
+
+        await Comment.deleteMany({ snippet: req.params.id });
+
+        await Snippet.findByIdAndDelete(req.params.id);
+
+        res.status(200).json({ message: "Snippet deleted successfully" });
+
+
+    } catch (error) {
+
+        res.status(500).json({
+            message: error.message
+        });
+
+    }
+};
+
+
+module.exports = { getAllUsers, blockUser, unblockUser, deleteUser, deleteSnippet }
