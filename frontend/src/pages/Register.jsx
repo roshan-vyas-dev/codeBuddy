@@ -8,6 +8,7 @@ function Register() {
   const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [loading, setLoading] = useState(false);
 
   const navigate = useNavigate();
 
@@ -16,6 +17,9 @@ function Register() {
     e.preventDefault();
 
     try {
+
+      setLoading(true)
+
 
       const response = await axios.post(
         "http://localhost:5000/api/auth/register",
@@ -35,7 +39,11 @@ function Register() {
       console.log(error);
       toast.error("Registration failed");
 
-    }
+    } finally {
+
+    setLoading(false);
+
+}
   }
 
 

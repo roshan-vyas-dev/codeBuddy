@@ -7,6 +7,7 @@ function Login() {
 
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
+    const [loading, setLoading] = useState(false);
 
     const navigate = useNavigate();
 
@@ -15,6 +16,8 @@ function Login() {
         e.preventDefault();
 
         try {
+
+            setLoading(true);
 
             const response = await axios.post(
                 "http://localhost:5000/api/auth/login",
@@ -47,6 +50,10 @@ function Login() {
             console.log(error);
             toast.error("Invalid email or password");
 
+        } finally {
+
+            setLoading(false);
+
         }
 
     }
@@ -69,9 +76,13 @@ function Login() {
                         className="w-full px-4 py-3 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-indigo-500" />
 
                     {/* login button */}
-                    <button type="submit" className="w-full bg-indigo-600 text-white py-3 rounded-lg hover:bg-indigo-700 transition">
-                        Login
+                    <button
+                        type="submit"
+                        disabled={loading}
+                        className="w-full bg-indigo-600 text-white py-3 rounded-lg hover:bg-indigo-700 transition disabled:opacity-50 disabled:cursor-not-allowed">
+                        {loading ? "Logging in..." : "Login"}
                     </button>
+
                 </form>
 
                 <p className="text-center text-gray-600 mt-4">

@@ -106,6 +106,51 @@ function SnippetDetails() {
         }
     }
 
+    const handleDeleteSnippet = async () => {
+
+        const confirmDelete = window.confirm(
+            "Are you sure you want to delete this snippet?"
+        );
+
+
+        if (!confirmDelete) {
+            return;
+        }
+
+
+        try {
+
+            const token = localStorage.getItem("token");
+
+
+            await axios.delete(
+                `http://localhost:5000/api/snippets/${snippet._id}`,
+                {
+                    headers: {
+                        Authorization: `Bearer ${token}`
+                    }
+                }
+            );
+
+
+            toast.success("Snippet deleted successfully");
+
+            navigate("/dashboard");
+
+
+        } catch (error) {
+
+            console.log(error);
+
+            toast.error(
+                error.response?.data?.message ||
+                "Failed to delete snippet"
+            );
+
+        }
+
+    };
+
     const getMe = async () => {
 
         try {
@@ -339,6 +384,34 @@ function SnippetDetails() {
                         </pre>
 
                     </div>
+
+
+                    {
+                        user &&
+                        snippet.author &&
+                        user._id === snippet.author._id && (
+
+                            <div className="flex gap-3">
+
+                                <button
+                                    onClick={() => navigate(`/edit-snippet/${snippet._id}`)}
+                                    className="bg-indigo-600 text-white px-5 py-3 rounded-lg hover:bg-indigo-700 transition"
+                                >
+                                    Edit Snippet
+                                </button>
+
+
+                                <button
+                                    onClick={handleDeleteSnippet}
+                                    className="bg-red-600 text-white px-5 py-3 rounded-lg hover:bg-red-700 transition"
+                                >
+                                    Delete Snippet
+                                </button>
+
+                            </div>
+
+                        )
+                    }
 
                 </div>
 

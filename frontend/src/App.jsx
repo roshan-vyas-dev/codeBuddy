@@ -15,6 +15,7 @@ import AdminDashboard from "./pages/admin/AdminDashboard";
 import ManageUsers from "./pages/admin/ManageUsers";
 import ManageSnippets from "./pages/admin/ManageSnippets";
 import ManageComments from "./pages/admin/ManageComments";
+import EditSnippet from "./pages/EditSnippet";
 
 
 
@@ -31,6 +32,7 @@ function App() {
       <Route path="/register" element={<Register />} />
       <Route path="/dashboard" element={<ProtectedRoute><Dashboard /></ProtectedRoute>} />
       <Route path="/create-snippet" element={<ProtectedRoute><CreateSnippet /></ProtectedRoute>} />
+      <Route path="/edit-snippet/:id" element={<EditSnippet />}/>
       <Route path="/snippets/:id" element={<SnippetDetails />} />
       <Route path="/profile/:id" element={<Profile />} />
 
