@@ -14,6 +14,7 @@ import AdminRoute from "./components/AdminRoute";
 import AdminDashboard from "./pages/admin/AdminDashboard";
 import ManageUsers from "./pages/admin/ManageUsers";
 import ManageSnippets from "./pages/admin/ManageSnippets";
+import ManageComments from "./pages/admin/ManageComments";
 
 
 
@@ -39,6 +40,8 @@ function App() {
         <Route path="dashboard" element={<AdminDashboard />} />
         <Route path="users" element={<ManageUsers />} />
         <Route path="snippets" element={<ManageSnippets />} />
+        <Route path="comments" element={<ManageComments />}/>
+        
 
       </Route>
 

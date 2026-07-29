@@ -237,4 +237,27 @@ const getAllAdminSnippets = async (req, res) => {
 };
 
 
-module.exports = { getAllUsers, blockUser, unblockUser, deleteUser, deleteSnippet,deleteComment,getAdminDashboard,getAllAdminSnippets }
+const getAllAdminComments = async (req, res) => {
+
+    try {
+
+        const comments = await Comment.find()
+            .populate("author", "username")
+            .populate("snippet", "title");
+
+
+        res.status(200).json(comments);
+
+
+    } catch (error) {
+
+        res.status(500).json({
+            message: error.message
+        });
+
+    }
+
+};
+
+
+module.exports = { getAllUsers, blockUser, unblockUser, deleteUser, deleteSnippet,deleteComment,getAdminDashboard,getAllAdminSnippets,getAllAdminComments }
