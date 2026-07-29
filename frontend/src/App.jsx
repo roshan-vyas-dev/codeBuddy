@@ -9,6 +9,10 @@ import CreateSnippet from "./pages/CreateSnippet";
 import SnippetDetails from "./pages/SnippetDetails";
 import Profile from "./pages/Profile";
 import NotFound from "./pages/NotFound";
+import AdminLayout from "./layouts/AdminLayout";
+import AdminRoute from "./components/AdminRoute";
+import AdminDashboard from "./pages/admin/AdminDashboard";
+import ManageUsers from "./pages/admin/ManageUsers";
 
 
 
@@ -27,7 +31,20 @@ function App() {
       <Route path="/create-snippet" element={<ProtectedRoute><CreateSnippet /></ProtectedRoute>} />
       <Route path="/snippets/:id" element={<SnippetDetails/>} />
       <Route path="/profile/:id" element={<Profile />} />
+
+      {/* admin */}
+      <Route path="/admin" element={<AdminRoute><AdminLayout/></AdminRoute>}>
+
+      <Route path="dashboard" element={<AdminDashboard/>}/>
+       <Route path="users" element={<ManageUsers />}/>
+      
+      </Route>
+      
+
+
+
       <Route path="*" element={<NotFound />} />
+
 
 
     </Routes>

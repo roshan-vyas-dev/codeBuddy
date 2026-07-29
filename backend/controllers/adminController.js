@@ -187,5 +187,33 @@ const deleteComment = async (req, res) => {
 
 };
 
+const getAdminDashboard = async (req, res) => {
 
-module.exports = { getAllUsers, blockUser, unblockUser, deleteUser, deleteSnippet,deleteComment }
+    try {
+
+        const totalUsers = await User.countDocuments();
+
+        const totalSnippets = await Snippet.countDocuments();
+
+        const totalComments = await Comment.countDocuments();
+
+
+        res.status(200).json({
+            totalUsers,
+            totalSnippets,
+            totalComments
+        });
+
+
+    } catch (error) {
+
+        res.status(500).json({
+            message: error.message
+        });
+
+    }
+
+};
+
+
+module.exports = { getAllUsers, blockUser, unblockUser, deleteUser, deleteSnippet,deleteComment,getAdminDashboard }

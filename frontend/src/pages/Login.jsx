@@ -26,6 +26,17 @@ function Login() {
 
             localStorage.setItem("token", response.data.token);
 
+
+            localStorage.setItem(
+                "user",
+                JSON.stringify({
+                    _id: response.data._id,
+                    username: response.data.username,
+                    email: response.data.email,
+                    role: response.data.role
+                })
+            );
+
             toast.success("Login successful");
 
             navigate("/dashboard");
@@ -73,7 +84,7 @@ function Login() {
                 </p>
 
 
-                
+
 
             </div>
 
