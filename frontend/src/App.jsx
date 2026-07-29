@@ -13,6 +13,7 @@ import AdminLayout from "./layouts/AdminLayout";
 import AdminRoute from "./components/AdminRoute";
 import AdminDashboard from "./pages/admin/AdminDashboard";
 import ManageUsers from "./pages/admin/ManageUsers";
+import ManageSnippets from "./pages/admin/ManageSnippets";
 
 
 
@@ -29,17 +30,18 @@ function App() {
       <Route path="/register" element={<Register />} />
       <Route path="/dashboard" element={<ProtectedRoute><Dashboard /></ProtectedRoute>} />
       <Route path="/create-snippet" element={<ProtectedRoute><CreateSnippet /></ProtectedRoute>} />
-      <Route path="/snippets/:id" element={<SnippetDetails/>} />
+      <Route path="/snippets/:id" element={<SnippetDetails />} />
       <Route path="/profile/:id" element={<Profile />} />
 
       {/* admin */}
-      <Route path="/admin" element={<AdminRoute><AdminLayout/></AdminRoute>}>
+      <Route path="/admin" element={<AdminRoute><AdminLayout /></AdminRoute>}>
 
-      <Route path="dashboard" element={<AdminDashboard/>}/>
-       <Route path="users" element={<ManageUsers />}/>
-      
+        <Route path="dashboard" element={<AdminDashboard />} />
+        <Route path="users" element={<ManageUsers />} />
+        <Route path="snippets" element={<ManageSnippets />} />
+
       </Route>
-      
+
 
 
 
