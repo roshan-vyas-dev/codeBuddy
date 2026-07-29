@@ -215,5 +215,26 @@ const getAdminDashboard = async (req, res) => {
 
 };
 
+const getAllAdminSnippets = async (req, res) => {
 
-module.exports = { getAllUsers, blockUser, unblockUser, deleteUser, deleteSnippet,deleteComment,getAdminDashboard }
+    try {
+
+        const snippets = await Snippet.find()
+            .populate("author", "username email");
+
+
+        res.status(200).json(snippets);
+
+
+    } catch (error) {
+
+        res.status(500).json({
+            message: error.message
+        });
+
+    }
+
+};
+
+
+module.exports = { getAllUsers, blockUser, unblockUser, deleteUser, deleteSnippet,deleteComment,getAdminDashboard,getAllAdminSnippets }
