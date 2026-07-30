@@ -45,14 +45,19 @@ const AdminDashboard = () => {
 
     return (
 
-        <div>
+    <div className="min-h-screen bg-gradient-to-br from-slate-100 via-white to-indigo-100 p-8">
 
-            <h1 className="text-3xl font-bold mb-8">
+        <div className="max-w-6xl mx-auto">
+
+            <h1 className="text-4xl font-bold text-gray-800 mb-2">
                 Admin Dashboard
             </h1>
 
+            <p className="text-gray-600 mb-8">
+                Monitor users, snippets and platform activity.
+            </p>
 
-            <div className="grid grid-cols-3 gap-6">
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
 
                 <StatsCard
                     title="Total Users"
@@ -69,15 +74,13 @@ const AdminDashboard = () => {
                     value={stats.totalComments}
                 />
 
-
-
-
-
             </div>
 
         </div>
 
-    );
+    </div>
+
+);
 };
 
 

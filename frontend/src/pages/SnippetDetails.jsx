@@ -403,8 +403,7 @@ function SnippetDetails() {
 
                                 <button
                                     onClick={handleDeleteSnippet}
-                                    className="bg-red-600 text-white px-5 py-3 rounded-lg hover:bg-red-700 transition"
-                                >
+                                    className="bg-red-600 text-white px-5 py-3 rounded-lg hover:bg-red-700 transition">
                                     Delete Snippet
                                 </button>
 

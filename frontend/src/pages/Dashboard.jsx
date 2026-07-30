@@ -151,26 +151,51 @@ function Dashboard() {
 
         </div>
 
-        <p className="text-lg text-indigo-600 mb-8">
-          Welcome, {user ? user.username : "Loading..."}
+        <p className="text-lg text-gray-600 mb-8">
+          Welcome back,
+          <span className="font-semibold text-indigo-600">
+            {" "}{user ? user.username : "Loading..."}
+          </span>
         </p>
 
 
-        <input
-          type="text"
-          placeholder="Search snippets..."
-          value={keyword}
-          className="w-full px-4 py-3 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-indigo-500 mb-6"
-          onChange={(e) => {
+        <div className="flex flex-col md:flex-row gap-4 mb-6">
 
-            setKeyword(e.target.value);
+          <input
+            type="text"
+            placeholder="Search snippets..."
+            value={keyword}
+            onChange={(e) => {
 
-            if (e.target.value === "") {
-              getSnippets();
-            }
+              setKeyword(e.target.value);
 
-          }}
-        />
+              if (e.target.value === "") {
+                getSnippets();
+              }
+
+            }}
+            className="flex-1 px-4 py-3 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-indigo-500"
+          />
+
+          <select
+            value={selectedLanguage}
+            onChange={(e) => setSelectedLanguage(e.target.value)}
+            className="px-4 py-3 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-indigo-500"
+          >
+
+            <option value="">All Languages</option>
+            <option value="JavaScript">JavaScript</option>
+            <option value="Python">Python</option>
+            <option value="Java">Java</option>
+            <option value="C++">C++</option>
+            <option value="C">C</option>
+
+          </select>
+
+        </div>
+
+
+
 
 
         <div className="flex flex-col md:flex-row  mb-6">
@@ -186,24 +211,6 @@ function Dashboard() {
 
 
 
-        <div className="mb-8">
-
-          <select
-            className="px-4 py-3 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-indigo-500"
-            value={selectedLanguage}
-            onChange={(e) => setSelectedLanguage(e.target.value)}
-          >
-
-            <option value="">All</option>
-            <option value="JavaScript">JavaScript</option>
-            <option value="Python">Python</option>
-            <option value="Java">Java</option>
-            <option value="C++">C++</option>
-            <option value="C">C</option>
-
-          </select>
-
-        </div>
 
 
 
@@ -251,7 +258,7 @@ function Dashboard() {
 
               <div
                 key={snippet._id}
-                className="bg-white/80 backdrop-blur-md border border-white rounded-2xl shadow-lg p-6"
+                className="bg-white/80 backdrop-blur-md border border-white rounded-2xl shadow-lg p-6 hover:shadow-xl hover:-translate-y-1 transition duration-200"
               >
 
                 <h2 className="text-xl font-bold text-gray-800">
@@ -271,8 +278,7 @@ function Dashboard() {
 
                 <Link
                   to={`/snippets/${snippet._id}`}
-                  className="text-indigo-600 font-medium hover:underline"
-                >
+                  className="inline-block mt-4 bg-indigo-600 text-white px-4 py-2 rounded-lg hover:bg-indigo-700 transition">
                   View Details
                 </Link>
 
