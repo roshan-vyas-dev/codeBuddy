@@ -42,7 +42,11 @@ function Login() {
 
             toast.success("Login successful");
 
-            navigate("/dashboard");
+            if (response.data.role === "admin") {
+                navigate("/admin/dashboard");
+            } else {
+                navigate("/dashboard");
+            }
 
 
 

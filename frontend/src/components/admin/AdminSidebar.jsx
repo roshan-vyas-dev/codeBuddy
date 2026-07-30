@@ -1,6 +1,17 @@
-import { NavLink } from "react-router-dom";
+import { NavLink,useNavigate } from "react-router-dom";
 
 const AdminSidebar = () => {
+
+    const navigate = useNavigate();
+
+    const handleLogout = () => {
+
+        localStorage.removeItem("token");
+        localStorage.removeItem("user");
+
+        navigate("/login");
+
+    };
 
     const linkStyle = ({ isActive }) =>
         isActive
@@ -48,6 +59,13 @@ const AdminSidebar = () => {
                 </NavLink>
 
             </nav>
+
+            <button
+                onClick={handleLogout}
+                className="w-full mt-8 bg-red-600 text-white py-3 rounded-xl hover:bg-red-700 transition"
+            >
+                Logout
+            </button>
 
         </div>
 
