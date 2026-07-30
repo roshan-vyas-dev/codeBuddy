@@ -13,6 +13,22 @@ const registerUser = async (req, res) => {
         ]
     });
 
+    if (userExists) {
+
+        if (userExists.email === email) {
+            return res.status(400).json({
+                message: "Email already registered"
+            });
+        }
+
+        if (userExists.username === username) {
+            return res.status(400).json({
+                message: "Username already taken"
+            });
+        }
+
+    }
+
     const user = await User.create({
         username,
         email,
@@ -69,4 +85,4 @@ const getMe = (req, res) => {
 };
 
 
-module.exports = { registerUser, loginUser,getMe };
+module.exports = { registerUser, loginUser, getMe };

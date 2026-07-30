@@ -46,7 +46,7 @@ function CreateSnippet() {
             console.log(error);
             toast.error("Failed to create snippet");
 
-        }finally{
+        } finally {
             setLoading(false)
         }
 
@@ -62,6 +62,12 @@ function CreateSnippet() {
 
 
                 <div className="bg-white/80 backdrop-blur-md border border-white rounded-2xl shadow-lg p-8">
+
+                    <button
+                        onClick={() => navigate("/dashboard")}
+                        className="mb-6 text-indigo-600 font-medium hover:underline">
+                        ← Back to Dashboard
+                    </button>
 
 
                     <h1 className="text-3xl font-bold text-gray-800 mb-6">
@@ -133,7 +139,17 @@ function CreateSnippet() {
                             type="submit"
                             disabled={loading}
                             className="w-full bg-indigo-600 text-white py-3 rounded-lg hover:bg-indigo-700 transition font-medium">
-                            {loading ? "Creating...." : "Create Snippet"}
+                            {loading ? (
+                                <div className="flex items-center justify-center gap-2">
+
+                                    <div className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
+
+                                    Creating...
+
+                                </div>
+                            ) : (
+                                "Create Snippet"
+                            )}
                         </button>
 
 

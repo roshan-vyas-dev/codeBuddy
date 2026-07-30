@@ -91,6 +91,7 @@ function Dashboard() {
 
   const handleLogout = () => {
     localStorage.removeItem("token");
+    localStorage.removeItem("user");
     navigate("/login");
   }
 
@@ -154,7 +155,8 @@ function Dashboard() {
         <p className="text-lg text-gray-600 mb-8">
           Welcome back,
           <span className="font-semibold text-indigo-600">
-            {" "}{user ? user.username : "Loading..."}
+            {" "}
+            {user?.username || "User"}
           </span>
         </p>
 
@@ -174,8 +176,7 @@ function Dashboard() {
               }
 
             }}
-            className="flex-1 px-4 py-3 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-indigo-500"
-          />
+            className="flex-1 px-4 py-3 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-indigo-500"/>
 
           <select
             value={selectedLanguage}
@@ -218,12 +219,17 @@ function Dashboard() {
 
           <div className="bg-white/80 backdrop-blur-md border border-white rounded-2xl shadow-lg p-10 text-center">
 
-            <p className="text-lg text-indigo-600 font-medium">
-              Loading snippets...
-            </p>
+            <div className="flex flex-col items-center justify-center">
+
+              <div className="w-10 h-10 border-4 border-indigo-600 border-t-transparent rounded-full animate-spin"></div>
+
+              <p className="text-lg text-indigo-600 font-medium mt-4">
+                Loading snippets...
+              </p>
+
+            </div>
 
           </div>
-
 
         ) : error ? (
 
@@ -258,8 +264,7 @@ function Dashboard() {
 
               <div
                 key={snippet._id}
-                className="bg-white/80 backdrop-blur-md border border-white rounded-2xl shadow-lg p-6 hover:shadow-xl hover:-translate-y-1 transition duration-200"
-              >
+                className="bg-white/80 backdrop-blur-md border border-white rounded-2xl shadow-lg p-6 hover:shadow-xl hover:-translate-y-1 transition duration-200">
 
                 <h2 className="text-xl font-bold text-gray-800">
                   {snippet.title}

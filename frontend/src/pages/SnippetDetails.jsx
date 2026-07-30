@@ -336,7 +336,21 @@ function SnippetDetails() {
 
 
     if (!snippet) {
-        return <p>Loading...</p>;
+        return (
+            <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-slate-100 via-white to-indigo-100">
+
+                <div className="flex flex-col items-center">
+
+                    <div className="w-10 h-10 border-4 border-indigo-600 border-t-transparent rounded-full animate-spin"></div>
+
+                    <p className="mt-4 text-indigo-600 font-medium">
+                        Loading snippet...
+                    </p>
+
+                </div>
+
+            </div>
+        );
     }
 
 
@@ -395,8 +409,7 @@ function SnippetDetails() {
 
                                 <button
                                     onClick={() => navigate(`/edit-snippet/${snippet._id}`)}
-                                    className="bg-indigo-600 text-white px-5 py-3 rounded-lg hover:bg-indigo-700 transition"
-                                >
+                                    className="bg-indigo-600 text-white px-5 py-3 rounded-lg hover:bg-indigo-700 transition">
                                     Edit Snippet
                                 </button>
 
@@ -418,8 +431,7 @@ function SnippetDetails() {
                 <div className="flex gap-4 mb-8">
                     <button
                         onClick={handleLike}
-                        className="bg-green-600 text-white px-5 py-3 rounded-lg hover:bg-green-700 transition"
-                    >
+                        className="bg-green-600 text-white px-5 py-3 rounded-lg hover:bg-green-700 transition">
                         {liked ? "Liked" : "Like"}
                     </button>
 
@@ -427,10 +439,21 @@ function SnippetDetails() {
                     <button
                         onClick={handleReview}
                         disabled={loadingReview}
-                        className="bg-indigo-600 text-white px-5 py-3 rounded-lg hover:bg-indigo-700 transition disabled:opacity-50"
-                    >
-                        {loadingReview ? "Reviewing..." : "Review Code"}
+                        className="bg-indigo-600 text-white px-5 py-3 rounded-lg hover:bg-indigo-700 transition disabled:opacity-50">
+                        {loadingReview ? (
+                            <div className="flex items-center justify-center gap-2">
+
+                                <div className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
+
+                                Reviewing...
+
+                            </div>
+                        ) : (
+                            "Review Code"
+                        )}
                     </button>
+
+
                 </div>
 
                 {review && (

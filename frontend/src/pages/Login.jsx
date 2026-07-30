@@ -52,7 +52,7 @@ function Login() {
 
         } catch (error) {
             console.log(error);
-            toast.error("Invalid email or password");
+            toast.error("Incorrect email or password. Please try again.");
 
         } finally {
 
@@ -83,8 +83,18 @@ function Login() {
                     <button
                         type="submit"
                         disabled={loading}
-                        className="w-full bg-indigo-600 text-white py-3 rounded-lg hover:bg-indigo-700 transition disabled:opacity-50 disabled:cursor-not-allowed">
-                        {loading ? "Logging in..." : "Login"}
+                        className="w-full bg-indigo-600 text-white py-3 rounded-lg hover:bg-indigo-700 transition disabled:opacity-50">
+                        {loading ? (
+                            <div className="flex items-center justify-center gap-2">
+
+                                <div className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
+
+                                Logging in...
+
+                            </div>
+                        ) : (
+                            "Login"
+                        )}
                     </button>
 
                 </form>

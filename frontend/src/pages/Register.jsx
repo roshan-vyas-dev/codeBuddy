@@ -36,14 +36,18 @@ function Register() {
 
 
     } catch (error) {
+
       console.log(error);
-      toast.error("Registration failed");
 
-    } finally {
+      toast.error(
+        error.response?.data?.message ||
+        "Registration failed"
+      );
 
-    setLoading(false);
+    }finally{
+      setLoading(false);
+    }
 
-}
   }
 
 
@@ -70,8 +74,19 @@ function Register() {
 
           <button
             type="submit"
-            className="w-full bg-indigo-600 text-white py-3 rounded-lg hover:bg-indigo-700 transition">
-            Register
+            disabled={loading}
+            className="w-full bg-indigo-600 text-white py-3 rounded-lg hover:bg-indigo-700 transition disabled:opacity-50">
+            {loading ? (
+              <div className="flex items-center justify-center gap-2">
+
+                <div className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
+
+                Creating account...
+
+              </div>
+            ) : (
+              "Register"
+            )}
           </button>
 
 

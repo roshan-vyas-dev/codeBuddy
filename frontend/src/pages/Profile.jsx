@@ -128,8 +128,7 @@ function Profile() {
 
                             <div
                                 key={snippet._id}
-                                className="bg-white/80 backdrop-blur-md border border-white rounded-2xl shadow-lg p-6 hover:shadow-xl transition"
-                            >
+                                className="bg-white/80 backdrop-blur-md border border-white rounded-2xl shadow-lg p-6 hover:shadow-xl transition">
 
 
                                 <Link to={`/snippets/${snippet._id}`}>
