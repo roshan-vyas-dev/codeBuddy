@@ -61,6 +61,12 @@ const loginUser = async (req, res) => {
         });
     }
 
+    if (user.isBlocked) {
+        return res.status(403).json({
+            message: "Your account has been blocked. Access has been restricted."
+        });
+    }
+
     const isMatch = await user.matchPassword(password);
 
     if (!isMatch) {

@@ -23,6 +23,12 @@ const protect = async (req, res, next) => {
                 });
             }
 
+            if (user.isBlocked) {
+                return res.status(403).json({
+                    message: "Your account has been blocked. Please contact the administrator."
+                });
+            }
+
             req.user = user;
 
             next();
@@ -55,4 +61,4 @@ const adminOnly = async (req, res, next) => {
 
 
 
-module.exports = { protect,adminOnly }
+module.exports = { protect, adminOnly }

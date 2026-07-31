@@ -51,8 +51,11 @@ function Login() {
 
 
         } catch (error) {
-            console.log(error);
-            toast.error("Incorrect email or password. Please try again.");
+
+            toast.error(
+                error.response?.data?.message ||
+                "Login failed. Please try again."
+            );
 
         } finally {
 
