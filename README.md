@@ -358,30 +358,29 @@ The production frontend communicates with the deployed backend through the `VITE
 
 ## Screenshots
 
-Screenshots of the application can be added here to demonstrate the main features.
+### Home Page
 
-Recommended screenshots:
+![Home Page](docs/screenshots/home.png)
 
-* Home page
-* Dashboard
-* Create Snippet
-* Snippet Details
-* AI Code Review
-* Profile
-* Admin Dashboard
-* Manage Users
+### Dashboard
 
-Example project structure:
+![Dashboard](docs/screenshots/dashboard.png)
 
-```text
-docs/
-└── screenshots/
-    ├── home.png
-    ├── dashboard.png
-    ├── ai-review.png
-    ├── profile.png
-    └── admin-dashboard.png
-```
+### Snippet Details
+
+![Snippet Details](docs/screenshots/snippet.png)
+
+### AI Code Review
+
+![AI Code Review](docs/screenshots/ai-review.png)
+
+### Profile
+
+![Profile](docs/screenshots/profile.png)
+
+### Admin Dashboard
+
+![Admin Dashboard](docs/screenshots/admin-dashboard.png)
 
 ## Future Improvements
 
