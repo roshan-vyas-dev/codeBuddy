@@ -119,44 +119,46 @@ const ManageUsers = () => {
     }, []);
 
 
-    return (
-        <div>
+   
+return (
 
-            <h1 className="text-3xl font-bold mb-6">
-                Manage Users
-            </h1>
+    <div className="w-full min-w-0">
 
+        <h1 className="mb-4 text-2xl font-bold sm:mb-6 sm:text-3xl">
+            Manage Users
+        </h1>
 
-            <table className="w-full table-fixed bg-white rounded-xl shadow">
+        <div className="w-full overflow-x-auto rounded-xl shadow">
+
+            <table className="min-w-[700px] w-full bg-white">
 
                 <thead>
 
                     <tr className="border-b">
 
-                        <th className="p-4 text-left">
+                        <th className="p-3 text-left sm:p-4">
                             Username
                         </th>
 
-                        <th className="p-4 text-left">
+                        <th className="p-3 text-left sm:p-4">
                             Email
                         </th>
 
-                        <th className="p-4 text-left">
+                        <th className="p-3 text-left sm:p-4">
                             Role
                         </th>
 
-                        <th className="p-4 text-left">
+                        <th className="p-3 text-left sm:p-4">
                             Status
                         </th>
 
-                        <th className="p-4 text-left">
+                        <th className="p-3 text-left sm:p-4">
                             Action
                         </th>
 
                     </tr>
 
                 </thead>
-
 
                 <tbody>
 
@@ -165,22 +167,19 @@ const ManageUsers = () => {
 
                             <tr key={user._id} className="border-b">
 
-                                <td className="p-4">
+                                <td className="p-3 sm:p-4">
                                     {user.username}
                                 </td>
 
-
-                                <td className="p-4">
+                                <td className="p-3 sm:p-4">
                                     {user.email}
                                 </td>
 
-
-                                <td className="p-4">
+                                <td className="p-3 sm:p-4">
                                     {user.role}
                                 </td>
 
-
-                                <td className="p-4">
+                                <td className="p-3 sm:p-4">
                                     {
                                         user.isBlocked
                                             ? "Blocked"
@@ -188,21 +187,19 @@ const ManageUsers = () => {
                                     }
                                 </td>
 
-
-                                <td className="p-4">
+                                <td className="p-3 sm:p-4">
 
                                     {
                                         user.role !== "admin" && (
 
-
-                                            <>
+                                            <div className="flex items-center gap-2 whitespace-nowrap">
 
                                                 {
                                                     user.isBlocked ? (
 
                                                         <button
                                                             onClick={() => handleUnblock(user._id)}
-                                                            className="bg-green-600 text-white px-3 py-1 rounded"
+                                                            className="rounded bg-green-600 px-3 py-1 text-white hover:bg-green-700"
                                                         >
                                                             Unblock
                                                         </button>
@@ -211,7 +208,7 @@ const ManageUsers = () => {
 
                                                         <button
                                                             onClick={() => handleBlock(user._id)}
-                                                            className="bg-red-600 text-white px-3 py-1 rounded"
+                                                            className="rounded bg-red-600 px-3 py-1 text-white hover:bg-red-700"
                                                         >
                                                             Block
                                                         </button>
@@ -219,25 +216,19 @@ const ManageUsers = () => {
                                                     )
                                                 }
 
-
                                                 <button
                                                     onClick={() => handleDelete(user._id)}
-                                                    className="bg-red-700 text-white px-3 py-1 rounded ml-2"
+                                                    className="rounded bg-red-700 px-3 py-1 text-white hover:bg-red-800"
                                                 >
                                                     Delete
                                                 </button>
 
-
-                                            </>
-
-
-
+                                            </div>
 
                                         )
                                     }
 
                                 </td>
-
 
                             </tr>
 
@@ -248,9 +239,12 @@ const ManageUsers = () => {
 
             </table>
 
-
         </div>
-    );
+
+    </div>
+);
+
+
 };
 
 

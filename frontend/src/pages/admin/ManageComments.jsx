@@ -72,107 +72,110 @@ const ManageComments = () => {
     }, []);
 
 
+
     return (
 
-        <div>
+        <div className="w-full min-w-0">
 
-            <h1 className="text-3xl font-bold mb-6">
+            <h1 className="mb-4 text-2xl font-bold sm:mb-6 sm:text-3xl">
                 Manage Comments
             </h1>
 
-            <table className="w-full table-fixed bg-white rounded-xl shadow">
+            <div className="w-full overflow-x-auto rounded-xl shadow">
 
-                <thead>
+                <table className="min-w-[750px] w-full bg-white">
 
-                    <tr className="border-b">
+                    <thead>
 
-                        <th className="p-4 text-left">
-                            Comment
-                        </th>
+                        <tr className="border-b">
 
-                        <th className="p-4 text-left">
-                            Author
-                        </th>
+                            <th className="p-3 text-left sm:p-4">
+                                Comment
+                            </th>
 
-                        <th className="p-4 text-left">
-                            Snippet
-                        </th>
+                            <th className="p-3 text-left sm:p-4">
+                                Author
+                            </th>
 
-                        <th className="p-4 text-left">
-                            Created
-                        </th>
+                            <th className="p-3 text-left sm:p-4">
+                                Snippet
+                            </th>
 
-                        <th className="p-4 text-left">
-                            Action
-                        </th>
+                            <th className="p-3 text-left sm:p-4">
+                                Created
+                            </th>
 
-                    </tr>
+                            <th className="p-3 text-left sm:p-4">
+                                Action
+                            </th>
 
-                </thead>
+                        </tr>
 
+                    </thead>
 
-                <tbody>
+                    <tbody>
 
-                    {
-                        comments.map((comment) => (
+                        {
+                            comments.map((comment) => (
 
-                            <tr
-                                key={comment._id}
-                                className="border-b"
-                            >
+                                <tr
+                                    key={comment._id}
+                                    className="border-b"
+                                >
 
-                                <td className="p-4">
-                                    {comment.text}
-                                </td>
+                                    <td className="p-3 sm:p-4">
+                                        {comment.text}
+                                    </td>
 
+                                    <td className="p-3 sm:p-4">
+                                        {
+                                            comment.author
+                                                ? comment.author.username
+                                                : "Deleted User"
+                                        }
+                                    </td>
 
-                                <td className="p-4">
-                                    {
-                                        comment.author
-                                            ? comment.author.username
-                                            : "Deleted User"
-                                    }
-                                </td>
+                                    <td className="p-3 sm:p-4">
+                                        {
+                                            comment.snippet
+                                                ? comment.snippet.title
+                                                : "Deleted Snippet"
+                                        }
+                                    </td>
 
+                                    <td className="whitespace-nowrap p-3 sm:p-4">
+                                        {
+                                            new Date(comment.createdAt).toLocaleDateString()
+                                        }
+                                    </td>
 
-                                <td className="p-4">
-                                    {
-                                        comment.snippet
-                                            ? comment.snippet.title
-                                            : "Deleted Snippet"
-                                    }
-                                </td>
+                                    <td className="p-3 sm:p-4">
 
+                                        <button
+                                            onClick={() => handleDelete(comment._id)}
+                                            className="whitespace-nowrap rounded bg-red-700 px-3 py-1 text-white hover:bg-red-800"
+                                        >
+                                            Delete
+                                        </button>
 
-                                <td className="p-4">
-                                    {
-                                        new Date(comment.createdAt).toLocaleDateString()
-                                    }
-                                </td>
+                                    </td>
 
+                                </tr>
 
-                                <td className="p-4">
+                            ))
+                        }
 
-                                    <button
-                                        onClick={() => handleDelete(comment._id)}
-                                        className="bg-red-700 text-white px-3 py-1 rounded">
-                                        Delete
-                                    </button>
+                    </tbody>
 
-                                </td>
+                </table>
 
-                            </tr>
-
-                        ))
-                    }
-
-                </tbody>
-
-            </table>
+            </div>
 
         </div>
 
     );
+
+
 
 };
 

@@ -74,101 +74,100 @@ const ManageSnippets = () => {
 
 
 
+
     return (
 
-        <div>
+        <div className="w-full min-w-0">
 
-            <h1 className="text-3xl font-bold mb-6">
+            <h1 className="mb-4 text-2xl font-bold sm:mb-6 sm:text-3xl">
                 Manage Snippets
             </h1>
 
+            <div className="w-full overflow-x-auto rounded-xl shadow">
 
-            <table className="w-full table-fixed bg-white rounded-xl shadow">
+                <table className="min-w-[650px] w-full bg-white">
 
-                <thead>
+                    <thead>
 
-                    <tr className="border-b">
+                        <tr className="border-b">
 
-                        <th className="p-4 text-left">
-                            Title
-                        </th>
+                            <th className="p-3 text-left sm:p-4">
+                                Title
+                            </th>
 
-                        <th className="p-4 text-left">
-                            Language
-                        </th>
+                            <th className="p-3 text-left sm:p-4">
+                                Language
+                            </th>
 
-                        <th className="p-4 text-left">
-                            Author
-                        </th>
+                            <th className="p-3 text-left sm:p-4">
+                                Author
+                            </th>
 
-                        <th className="p-4 text-left">
-                            Points
-                        </th>
+                            <th className="p-3 text-left sm:p-4">
+                                Points
+                            </th>
 
-                        <th className="p-4 text-left">
-                            Action
-                        </th>
+                            <th className="p-3 text-left sm:p-4">
+                                Action
+                            </th>
 
-                    </tr>
+                        </tr>
 
-                </thead>
+                    </thead>
 
+                    <tbody>
 
-                <tbody>
+                        {
+                            snippets.map((snippet) => (
 
-                    {
-                        snippets.map((snippet) => (
+                                <tr
+                                    key={snippet._id}
+                                    className="border-b"
+                                >
 
-                            <tr
-                                key={snippet._id}
-                                className="border-b"
-                            >
+                                    <td className="p-3 sm:p-4">
+                                        {snippet.title}
+                                    </td>
 
-                                <td className="p-4">
-                                    {snippet.title}
-                                </td>
+                                    <td className="p-3 sm:p-4">
+                                        {snippet.language}
+                                    </td>
 
+                                    <td className="p-3 sm:p-4">
+                                        {snippet.author.username}
+                                    </td>
 
-                                <td className="p-4">
-                                    {snippet.language}
-                                </td>
+                                    <td className="p-3 sm:p-4">
+                                        {snippet.points}
+                                    </td>
 
+                                    <td className="p-3 sm:p-4">
 
-                                <td className="p-4">
-                                    {snippet.author.username}
-                                </td>
+                                        <button
+                                            onClick={() => handleDelete(snippet._id)}
+                                            className="whitespace-nowrap rounded bg-red-700 px-3 py-1 text-white hover:bg-red-800"
+                                        >
+                                            Delete
+                                        </button>
 
+                                    </td>
 
-                                <td className="p-4">
-                                    {snippet.points}
-                                </td>
+                                </tr>
 
+                            ))
+                        }
 
-                                <td className="p-4">
+                    </tbody>
 
-                                    <button
-                                        onClick={() => handleDelete(snippet._id)}
-                                        className="bg-red-700 text-white px-3 py-1 rounded">
-                                        Delete
-                                    </button>
+                </table>
 
-                                </td>
-
-
-                            </tr>
-
-                        ))
-                    }
-
-                </tbody>
-
-
-            </table>
-
+            </div>
 
         </div>
 
     );
+
+
 
 };
 
