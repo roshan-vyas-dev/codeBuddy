@@ -20,7 +20,7 @@ const ManageComments = () => {
         try {
 
             await axios.delete(
-                `http://localhost:5000/api/admin/comments/${id}`,
+                `${import.meta.env.VITE_API_URL}/admin/comments/${id}`,
                 {
                     headers: {
                         Authorization: `Bearer ${localStorage.getItem("token")}`
@@ -44,7 +44,7 @@ const ManageComments = () => {
         try {
 
             const response = await axios.get(
-                "http://localhost:5000/api/admin/comments",
+                `${import.meta.env.VITE_API_URL}/admin/comments`,
                 {
                     headers: {
                         Authorization: `Bearer ${localStorage.getItem("token")}`

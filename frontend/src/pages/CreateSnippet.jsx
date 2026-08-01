@@ -21,7 +21,7 @@ function CreateSnippet() {
 
 
             await axios.post(
-                "http://localhost:5000/api/snippets",
+                `${import.meta.env.VITE_API_URL}/snippets`,
                 {
                     title,
                     language,

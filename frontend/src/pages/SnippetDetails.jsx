@@ -31,7 +31,7 @@ function SnippetDetails() {
             const token = localStorage.getItem("token");
 
             const response = await axios.get(
-                `http://localhost:5000/api/snippets/${id}`,
+                `${import.meta.env.VITE_API_URL}/snippets/${id}`,
                 {
                     headers: {
                         Authorization: `Bearer ${token}`,
@@ -57,7 +57,7 @@ function SnippetDetails() {
             const token = localStorage.getItem("token");
 
             const response = await axios.get(
-                `http://localhost:5000/api/comments/snippet/${id}`,
+                `${import.meta.env.VITE_API_URL}/comments/snippet/${id}`,
                 {
                     headers: {
                         Authorization: `Bearer ${token}`
@@ -82,7 +82,7 @@ function SnippetDetails() {
             const token = localStorage.getItem("token");
 
             await axios.post(
-                "http://localhost:5000/api/comments",
+                `${import.meta.env.VITE_API_URL}/comments`,
                 {
                     snippet: id,
                     text: comment
@@ -124,7 +124,7 @@ function SnippetDetails() {
 
 
             await axios.delete(
-                `http://localhost:5000/api/snippets/${snippet._id}`,
+                `${import.meta.env.VITE_API_URL}/snippets/${snippet._id}`,
                 {
                     headers: {
                         Authorization: `Bearer ${token}`
@@ -158,7 +158,7 @@ function SnippetDetails() {
             const token = localStorage.getItem("token");
 
             const response = await axios.get(
-                "http://localhost:5000/api/auth/me",
+                `${import.meta.env.VITE_API_URL}/auth/me`,
                 {
                     headers: {
                         Authorization: `Bearer ${token}`,
@@ -183,7 +183,7 @@ function SnippetDetails() {
             const token = localStorage.getItem("token");
 
             await axios.delete(
-                `http://localhost:5000/api/comments/${commentId}`,
+                `${import.meta.env.VITE_API_URL}/comments/${commentId}`,
 
                 {
                     headers: {
@@ -222,7 +222,7 @@ function SnippetDetails() {
             const token = localStorage.getItem("token");
 
             await axios.put(
-                `http://localhost:5000/api/comments/${editingId}`,
+                `${import.meta.env.VITE_API_URL}/comments/${editingId}`,
                 {
                     text: editText
 
@@ -255,7 +255,7 @@ function SnippetDetails() {
 
 
             await axios.put(
-                `http://localhost:5000/api/snippets/${id}/like`,
+                `${import.meta.env.VITE_API_URL}/snippets/${id}/like`,
                 {},
                 {
                     headers: {
@@ -294,7 +294,7 @@ function SnippetDetails() {
             const token = localStorage.getItem("token");
 
             const response = await axios.post(
-                `http://localhost:5000/api/snippets/${id}/review`,
+                `${import.meta.env.VITE_API_URL}/snippets/${id}/review`,
                 {},
                 {
                     headers: {

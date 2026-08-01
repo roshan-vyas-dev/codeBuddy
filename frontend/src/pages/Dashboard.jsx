@@ -24,7 +24,7 @@ function Dashboard() {
       const token = localStorage.getItem("token");
 
       const response = await axios.get(
-        "http://localhost:5000/api/auth/me",
+        `${import.meta.env.VITE_API_URL}/auth/me`,
         {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -52,7 +52,7 @@ function Dashboard() {
       const token = localStorage.getItem("token");
 
       const response = await axios.get(
-        "http://localhost:5000/api/snippets",
+        `${import.meta.env.VITE_API_URL}/snippets`,
         {
           headers: {
             Authorization: `Bearer ${token}`,

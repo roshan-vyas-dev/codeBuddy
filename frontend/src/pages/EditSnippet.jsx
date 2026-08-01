@@ -29,7 +29,7 @@ function EditSnippet() {
 
 
                 const response = await axios.get(
-                    `http://localhost:5000/api/snippets/${id}`,
+                    `${import.meta.env.VITE_API_URL}/snippets/${id}`,
                     {
                         headers: {
                             Authorization: `Bearer ${token}`
@@ -77,7 +77,7 @@ function EditSnippet() {
 
             await axios.put(
 
-                `http://localhost:5000/api/snippets/${id}`,
+                `${import.meta.env.VITE_API_URL}/snippets/${id}`,
 
                 {
                     title,

@@ -11,7 +11,7 @@ const ManageUsers = () => {
         try {
 
             await axios.patch(
-                `http://localhost:5000/api/admin/users/${id}/block`,
+                `${import.meta.env.VITE_API_URL}/admin/users/${id}/block`,
                 {},
                 {
                     headers: {
@@ -35,7 +35,7 @@ const ManageUsers = () => {
         try {
 
             await axios.patch(
-                `http://localhost:5000/api/admin/users/${id}/unblock`,
+                `${import.meta.env.VITE_API_URL}/admin/users/${id}/unblock`,
                 {},
                 {
                     headers: {
@@ -69,7 +69,7 @@ const ManageUsers = () => {
         try {
 
             await axios.delete(
-                `http://localhost:5000/api/admin/users/${id}`,
+                `${import.meta.env.VITE_API_URL}/admin/users/${id}`,
                 {
                     headers: {
                         Authorization: `Bearer ${localStorage.getItem("token")}`
@@ -94,7 +94,7 @@ const ManageUsers = () => {
         try {
 
             const response = await axios.get(
-                "http://localhost:5000/api/admin/users",
+                `${import.meta.env.VITE_API_URL}/admin/users`,
                 {
                     headers: {
                         Authorization: `Bearer ${localStorage.getItem("token")}`

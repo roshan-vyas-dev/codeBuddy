@@ -20,7 +20,7 @@ function Profile() {
             try {
 
                 const response = await axios.get(
-                    `http://localhost:5000/api/users/${id}`
+                    `${import.meta.env.VITE_API_URL}/users/${id}`
                 );
 
                 setUser(response.data);
@@ -43,7 +43,7 @@ function Profile() {
             try {
 
                 const response = await axios.get(
-                    `http://localhost:5000/api/users/${id}/snippets`
+                    `${import.meta.env.VITE_API_URL}/users/${id}/snippets`
                 );
 
                 setSnippets(response.data);

@@ -21,7 +21,7 @@ const ManageSnippets = () => {
         try {
 
             await axios.delete(
-                `http://localhost:5000/api/admin/snippets/${id}`,
+                `${import.meta.env.VITE_API_URL}/admin/snippets/${id}`,
                 {
                     headers: {
                         Authorization: `Bearer ${localStorage.getItem("token")}`
@@ -47,7 +47,7 @@ const ManageSnippets = () => {
         try {
 
             const response = await axios.get(
-                "http://localhost:5000/api/admin/snippets",
+                `${import.meta.env.VITE_API_URL}/admin/snippets`,
                 {
                     headers: {
                         Authorization: `Bearer ${localStorage.getItem("token")}`
